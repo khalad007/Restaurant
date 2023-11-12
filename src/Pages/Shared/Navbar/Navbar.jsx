@@ -1,4 +1,4 @@
-
+import cart from "../../../assets/icon/cart.png"
 
 const Navbar = () => {
 
@@ -7,7 +7,7 @@ const Navbar = () => {
         <li><a>Contact Us</a></li>
         <li><a>Dashboard</a></li>
         <li><a>Our Menu</a></li>
-        <li><a>Our Shop</a></li>
+        <li><a>Our Shop<img className="w-10" src={cart} alt="" /></a></li>
     </>
     return (
         <>
@@ -23,8 +23,8 @@ const Navbar = () => {
                     </div>
                     <p className=" normal-case text-xl">BISTRO BOSS <br /> <span className="tracking-widest text-center">Restaurant</span> </p>
                 </div>
-                <div className="navbar-end hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
+                <div className="navbar-end hidden lg:flex ">
+                    <ul className="menu menu-horizontal justify-center items-center px-1">
                         {navLinks}
                     </ul>
                
