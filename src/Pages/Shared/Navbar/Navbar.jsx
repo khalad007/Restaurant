@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom";
 import cart from "../../../assets/icon/cart.png"
 
 const Navbar = () => {
 
     const navLinks = <>
-        <li><a>Home</a></li>
+        <li><Link to="/">Home</Link></li>
         <li><a>Contact Us</a></li>
         <li><a>Dashboard</a></li>
-        <li><a>Our Menu</a></li>
-        <li><a>Our Shop<img className="w-10" src={cart} alt="" /></a></li>
+        <li><Link to="/menu">Our Menu</Link></li>
+        <li><Link>Our Shop<img className="w-10 hover:opacity-5" src={cart} alt="" /></Link></li>
     </>
     return (
         <>
