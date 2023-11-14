@@ -29,7 +29,7 @@ const Navbar = () => {
                         {navLinks}
                     </ul>
                
-                    <a className="btn">Login</a>
+                    <Link to="login" className="btn">Login</Link>
                 </div>
             </div>
         </>
