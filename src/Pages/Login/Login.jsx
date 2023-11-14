@@ -19,20 +19,20 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password)
+        console.log(email, password)
     }
 
     useEffect(() => {
-        loadCaptchaEnginge(6); 
-    },[])
+        loadCaptchaEnginge(6);
+    }, [])
 
     const handleValidateCaptcha = e => {
         // e.preventDefault()
         const userCaptchaValue = captchaRef.current.value;
-        if(validateCaptcha(userCaptchaValue) === true){
+        if (validateCaptcha(userCaptchaValue) === true) {
             setDisabled(false)
         }
-        else{
+        else {
             setDisabled(true)
         }
 
@@ -64,7 +64,7 @@ const Login = () => {
 
                         <div className="form-control">
                             <label className="label">
-                            <LoadCanvasTemplate />
+                                <LoadCanvasTemplate />
                             </label>
                             <input type="text" ref={captchaRef} placeholder="Type captcha above" name="captcha" className="input input-bordered" required />
                             <button onClick={handleValidateCaptcha} className="btn btn-xs">Validate</button>
