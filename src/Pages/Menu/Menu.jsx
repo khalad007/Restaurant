@@ -26,13 +26,13 @@ const Menu = () => {
             <MenuCategory items={offered}></MenuCategory>
 
             {/* dessert */}
-            <MenuCategory items={desserts} title="Dessert" img={dessertImg}></MenuCategory>
+            <MenuCategory items={desserts} title="dessert" img={dessertImg}></MenuCategory>
             {/* pizza */}
-            <MenuCategory items={pizza} title="PIZZA" img={pizzaImg}></MenuCategory>
+            <MenuCategory items={pizza} title="pizza" img={pizzaImg}></MenuCategory>
             {/* salad */}
-            <MenuCategory items={salad} title="SALADS" img={saladImg}></MenuCategory>
+            <MenuCategory items={salad} title="salads" img={saladImg}></MenuCategory>
             {/* soup */}
-            <MenuCategory items={soup} title="SOUP" img={soupImg}></MenuCategory>
+            <MenuCategory items={soup} title="soup" img={soupImg}></MenuCategory>
         </div>
     );
 };
