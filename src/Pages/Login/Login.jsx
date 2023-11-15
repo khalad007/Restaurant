@@ -2,13 +2,19 @@ import login from "../../assets/others/authentication2.png"
 import loginbg from "../../assets/others/authentication.png"
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import swal from "sweetalert";
 const Login = () => {
     const captchaRef = useRef(null);
 
     const [disabled, setDisabled] = useState(true);
+    const { signIn } = useContext(AuthContext)
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
+
 
     const backgroundImageStyle = {
         backgroundImage: `url(${loginbg})`,
@@ -16,7 +22,6 @@ const Login = () => {
         backgroundPosition: "center",
     };
 
-    const { signIn } = useContext(AuthContext)
 
     const handleLogin = e => {
         e.preventDefault()
@@ -31,6 +36,7 @@ const Login = () => {
             const user = result.user;
             console.log(user)
             swal("Good job!", "You clicked the button!", "success");
+            navigate(from, { replace: true })
         })
     }
 
