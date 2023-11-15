@@ -4,6 +4,7 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import swal from "sweetalert";
 const Login = () => {
     const captchaRef = useRef(null);
 
@@ -29,6 +30,7 @@ const Login = () => {
         .then(result => {
             const user = result.user;
             console.log(user)
+            swal("Good job!", "You clicked the button!", "success");
         })
     }
 
