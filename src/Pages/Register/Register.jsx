@@ -1,13 +1,12 @@
 import login from "../../assets/others/authentication2.png"
 import loginbg from "../../assets/others/authentication.png"
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
-import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-const Login = () => {
-    const captchaRef = useRef(null);
 
-    const [disabled, setDisabled] = useState(true);
+const Register = () => {
+
+const { createuser } = useContext(AuthContext);
 
     const backgroundImageStyle = {
         backgroundImage: `url(${loginbg})`,
@@ -15,46 +14,37 @@ const Login = () => {
         backgroundPosition: "center",
     };
 
-    const { signIn } = useContext(AuthContext)
-
-    const handleLogin = e => {
+    const handleRegister = e => {
         e.preventDefault()
 
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        const name = form.name.value;
+        console.log(email, password, name)
 
-        signIn(email,password)
+        createuser(email,password)
         .then(result => {
-            const user = result.user;
-            console.log(user)
+            console.log(result.user)
         })
-    }
-
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, [])
-
-    const handleValidateCaptcha = e => {
-        // e.preventDefault()
-        const userCaptchaValue = captchaRef.current.value;
-        if (validateCaptcha(userCaptchaValue) === true) {
-            setDisabled(false)
-        }
-        else {
-            setDisabled(true)
-        }
-
+        .catch(error => {
+            console.error(error)
+        })
     }
     return (
         <div className="hero min-h-screen " style={backgroundImageStyle}>
-            <div className="hero-content flex-col lg:flex-row">
+            <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center w-1/2 lg:text-left">
                     <img src={login} alt="" />
                 </div>
                 <div className="card flex-shrink-0 w-1/2 max-w-sm shadow-2xl bg-base-100">
-                    <form onSubmit={handleLogin} className="card-body">
+                    <form onSubmit={handleRegister} className="card-body">
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input type="text" placeholder="Name" name="name" className="input input-bordered" required />
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -72,20 +62,20 @@ const Login = () => {
                         </div>
 
 
-                        <div className="form-control">
+                        {/* <div className="form-control">
                             <label className="label">
                                 <LoadCanvasTemplate />
                             </label>
                             <input type="text" ref={captchaRef} placeholder="Type captcha above" name="captcha" className="input input-bordered" required />
                             <button onClick={handleValidateCaptcha} className="btn btn-xs">Validate</button>
-                        </div>
+                        </div> */}
 
 
                         <div className="form-control mt-6">
-                            <input disabled={disabled} className="btn bg-[#d8b682] text-white" type="submit" value="Login" />
+                            <input  className="btn bg-[#d8b682] text-white" type="submit" value="Register" />
                         </div>
-                        <Link to="/register"><p className="font-bold text-sm text-[#d8b682] text-center">New here? Create a New Account</p></Link>
-                        <p className="font-medium text-sm text-center">or sign in with</p>
+                       <Link to="/login"> <p className="font-bold text-sm text-[#d8b682] text-center">Already registered? Go to log in</p></Link>
+                        <p className="font-medium text-sm text-center">or sign up with</p>
                     </form>
                 </div>
             </div>
@@ -93,4 +83,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
