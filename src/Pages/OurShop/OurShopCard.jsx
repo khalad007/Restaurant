@@ -1,15 +1,36 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+// import axios from "axios";
 
 
 const OurShopCard = ({ items }) => {
-    const { name, image, price, recipe } = items;
+    const { _id, name, image, price, recipe } = items;
     const { user } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const axiosSecure = useAxiosSecure();
 
     const handleAddToCart = food => {
         if (user && user.email) {
             // send item to db 
+            console.log(user.email, food);
+
+            const cartItem = {
+                menuId: _id,
+                email: user.email,
+                name,
+                image,
+                price
+            }
+
+            axiosSecure.post('/carts', cartItem)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.insertedId ) {
+                        swal("Good job!", `${name} added to the cart.`, "success");
+                    }
+                })
         }
         else {
             swal({
@@ -21,7 +42,7 @@ const OurShopCard = ({ items }) => {
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                       navigate('/login')
+                        navigate('/login', { state: { from: location } })
                     }
                 });
         }
