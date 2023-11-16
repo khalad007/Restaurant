@@ -1,16 +1,19 @@
 import login from "../../assets/others/authentication2.png"
 import loginbg from "../../assets/others/authentication.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import swal from "sweetalert";
 
 const Register = () => {
-    const { createuser } = useContext(AuthContext);
+    const { createuser ,updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
+        reset,
         watch,
         formState: { errors },
     } = useForm()
@@ -21,6 +24,14 @@ const Register = () => {
         .then(result => {
             const regUser = result.user;
             console.log(regUser)
+            updateUserProfile(data.name, data.photoURL)
+            .then(() => {
+                console.log('user info')
+                reset();
+                swal("Good job!", "Registration Successful!", "success");
+                navigate('/')
+            })
+            .catch(error => console.log(error))
         })
     }
 
@@ -56,13 +67,18 @@ const Register = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text">PhotoURL</span>
+                            </label>
+                            <input type="url" placeholder="photoURL" {...register("photoURL",{ required: true })} name="photoURL" className="input input-bordered" />
+                            {errors.email && <span className="text-red-700">PhotoURL Required</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" placeholder="password" {...register("password",{ required: true })} name="password" className="input input-bordered"  />
                             {errors.password && <span className="text-red-700">This field is required</span>}
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
+                            
                         </div>
 
 

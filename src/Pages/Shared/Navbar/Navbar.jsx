@@ -5,20 +5,26 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 
 const Navbar = () => {
 
-    const {user,logOut} = useContext(AuthContext)
-    
+    const { user, logOut } = useContext(AuthContext)
+
     const handleLogOut = () => {
         logOut()
-        .then(() => {})
-        .catch(error => console.error(error))
+            .then(() => { })
+            .catch(error => console.error(error))
     }
-    
+
     const navLinks = <>
         <li><Link to="/">Home</Link></li>
-        <li><a>Contact Us</a></li>
+        {/* <li><a>Contact Us</a></li> */}
         <li><a>Dashboard</a></li>
         <li><Link to="/menu">Our Menu</Link></li>
-        <li><Link to="/ourshop/salad">Our Shop<img className="w-10 hover:opacity-5" src={cart} alt="" /></Link></li>
+        <li><Link to="/ourshop/salad">Our Shop</Link></li>
+        <button className="btn btn-ghost btn-sm">
+            <img className="w-10" src={cart} alt="" />
+            <div className="badge badge-secondary">+0</div>
+        </button>
+        {/* <span>{user?.displayName}</span> */}
+
     </>
     return (
         <>
@@ -38,11 +44,11 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal justify-center items-center px-1">
                         {navLinks}
                     </ul>
-               
+
                     {
-                        user ? <Link onClick={handleLogOut} className="btn bg-[#E90000] text-white">Logout</Link> : 
-                        
-                        <Link to="login" className="btn bg-[#06C755] text-white">Login</Link>
+                        user ? <Link onClick={handleLogOut} className="btn bg-[#E90000] text-white">Logout</Link> :
+
+                            <Link to="login" className="btn bg-[#06C755] text-white">Login</Link>
                     }
                 </div>
             </div>
