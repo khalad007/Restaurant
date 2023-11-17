@@ -5,9 +5,11 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import swal from "sweetalert";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Register = () => {
-    const { createuser ,updateUserProfile } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
+    const { createuser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const {
@@ -21,18 +23,31 @@ const Register = () => {
     const onSubmit = data => {
         console.log(data)
         createuser(data.email, data.password)
-        .then(result => {
-            const regUser = result.user;
-            console.log(regUser)
-            updateUserProfile(data.name, data.photoURL)
-            .then(() => {
-                console.log('user info')
-                reset();
-                swal("Good job!", "Registration Successful!", "success");
-                navigate('/')
+            .then(result => {
+                const regUser = result.user;
+                console.log(regUser)
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        console.log('user info')
+                        //create user in db (new user)
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('add on db the new user')
+                                    reset();
+                                    swal("Good job!", "Registration Successful!", "success");
+                                    navigate('/')
+                                }
+                            })
+
+
+                    })
+                    .catch(error => console.log(error))
             })
-            .catch(error => console.log(error))
-        })
     }
 
     const backgroundImageStyle = {
@@ -48,37 +63,37 @@ const Register = () => {
                     <img src={login} alt="" />
                 </div>
                 <div className="card flex-shrink-0 w-1/2 max-w-sm shadow-2xl bg-base-100">
-                    
+
                     <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-                       
+
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
-                            <input type="text" placeholder="Name" {...register("name",{ required: true })} name="name" className="input input-bordered" />
+                            <input type="text" placeholder="Name" {...register("name", { required: true })} name="name" className="input input-bordered" />
                             {errors.name && <span className="text-red-700">This field is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" placeholder="email" {...register("email",{ required: true })} name="email" className="input input-bordered" />
+                            <input type="email" placeholder="email" {...register("email", { required: true })} name="email" className="input input-bordered" />
                             {errors.email && <span className="text-red-700">Email Required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">PhotoURL</span>
                             </label>
-                            <input type="url" placeholder="photoURL" {...register("photoURL",{ required: true })} name="photoURL" className="input input-bordered" />
+                            <input type="url" placeholder="photoURL" {...register("photoURL", { required: true })} name="photoURL" className="input input-bordered" />
                             {errors.email && <span className="text-red-700">PhotoURL Required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" placeholder="password" {...register("password",{ required: true })} name="password" className="input input-bordered"  />
+                            <input type="password" placeholder="password" {...register("password", { required: true })} name="password" className="input input-bordered" />
                             {errors.password && <span className="text-red-700">This field is required</span>}
-                            
+
                         </div>
 
 
