@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useCart from "../../Hooks/useCart";
 // import axios from "axios";
 
 
@@ -10,11 +11,12 @@ const OurShopCard = ({ items }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const axiosSecure = useAxiosSecure();
+    const [, refetch] = useCart();
 
-    const handleAddToCart = food => {
+    const handleAddToCart = () => {
         if (user && user.email) {
             // send item to db 
-            console.log(user.email, food);
+            // console.log(user.email, food);
 
             const cartItem = {
                 menuId: _id,
@@ -31,6 +33,9 @@ const OurShopCard = ({ items }) => {
                         swal("Good job!", `${name} added to the cart.`, "success");
                     }
                 })
+                // refetch to update the cart items count
+                refetch();
+                window.location.reload(); 
         }
         else {
             swal({
@@ -56,7 +61,7 @@ const OurShopCard = ({ items }) => {
                 <h2 className="font-semibold text-2xl text-center">{name}</h2>
                 <p className="text-center text-base font-normal ">{recipe}</p>
                 <div className="card-actions justify-center">
-                    <button onClick={() => handleAddToCart(items)} className="btn bg-[#E8E8E8]  hover:bg-black border-b-2 border-b-[#BB8506] text-[#BB8506]">ADD TO CART</button>
+                    <button onClick={handleAddToCart} className="btn bg-[#E8E8E8]  hover:bg-black border-b-2 border-b-[#BB8506] text-[#BB8506]">ADD TO CART</button>
                 </div>
             </div>
         </div>

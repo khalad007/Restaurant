@@ -20,10 +20,12 @@ const Navbar = () => {
         <li><a>Dashboard</a></li>
         <li><Link to="/menu">Our Menu</Link></li>
         <li><Link to="/ourshop/salad">Our Shop</Link></li>
-        <button className="btn btn-ghost btn-sm">
-            <img className="w-10" src={cartImg} alt="" />
-            <div className="badge badge-secondary">+{cart.length}</div>
-        </button>
+        <Link to="/dashboard/cart">
+            <button className="btn btn-ghost btn-sm">
+                <img className="w-10" src={cartImg} alt="" />
+                <div className="badge badge-secondary">+{cart.length}</div>
+            </button>
+        </Link>
         {/* <span>{user?.displayName}</span> */}
 
     </>
