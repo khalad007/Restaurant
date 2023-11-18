@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import swal from "sweetalert";
+import SocialLogin from "../../Component/SocialLogin/SocialLogin";
 const Login = () => {
     const captchaRef = useRef(null);
 
@@ -91,7 +92,9 @@ const Login = () => {
                             <input disabled={disabled} className="btn bg-[#d8b682] text-white" type="submit" value="Login" />
                         </div>
                         <Link to="/register"><p className="font-bold text-sm text-[#d8b682] text-center">New here? Create a New Account</p></Link>
-                        <p className="font-medium text-sm text-center">or sign in with</p>
+<div className="divider">
+                        <p className="font-medium text-sm text-center">or sign in with</p></div>
+                        <SocialLogin></SocialLogin>
                     </form>
                 </div>
             </div>
