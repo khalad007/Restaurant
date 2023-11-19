@@ -1,9 +1,10 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 import { FaBook, FaCalendarMinus, FaCartShopping, FaHouse, FaList, FaPaypal, FaRankingStar, FaUser, FaUsers, FaUtensils } from "react-icons/fa6";
+import useAdmin from "../Hooks/useAdmin";
 const Dashboard = () => {
 
-    const isAdmin = true;
+    const [isAdmin] = useAdmin();
     return (
         <div className="flex">
             <div className="w-60 min-h-full bg-[#D1A054]">
