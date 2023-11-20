@@ -11,11 +11,24 @@ const Dashboard = () => {
                 <ul className="menu ">
                     {
                         isAdmin ? <>
+                            <h1 className="font-extrabold text-2xl text-center ">BISTROBOSS <br /><span className="font-bold text-lg">Restaurant</span></h1>
+                            <span className="text-center mt-6 font-bold">Admin Options </span>
+                            <div className="divider"></div>
                             <li><NavLink to="/dashboard/adminHome" ><FaHouse /> Admin Home</NavLink></li>
                             <li><NavLink to="/dashboard/addItems"><FaUtensils /> Add Item's </NavLink></li>
                             <li><NavLink to="/dashboard/manageItem"><FaList></FaList> Manage Item</NavLink></li>
                             <li><NavLink to="/dashboard/bookings"><FaBook /> Manage Bookings</NavLink></li>
                             <li><NavLink to="/dashboard/users"><FaUsers /> All User's</NavLink></li>
+
+                            <span className="text-center mt-6 font-bold">User Options</span>
+                            <div className="divider"></div>
+
+                            <li><NavLink to="/dashboard/userHome" ><FaHouse /> User Home</NavLink></li>
+                            <li><NavLink to="/dashboard/reservation"><FaCalendarMinus /> Reservation</NavLink></li>
+                            <li><NavLink to="/dashboard/cart"><FaCartShopping></FaCartShopping> My cart</NavLink></li>
+                            <li><NavLink to="/dashboard/review"><FaRankingStar /> Review</NavLink></li>
+                            <li><NavLink to="/dashboard/payment"><FaPaypal /> Payment</NavLink></li>
+                            <li><NavLink to="/dashboard/booking"><FaBook /> My Bookings</NavLink></li>
                         </>
                             :
                             <>

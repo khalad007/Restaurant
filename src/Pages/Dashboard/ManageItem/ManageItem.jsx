@@ -2,6 +2,7 @@ import { FaPen, FaTrashCan } from "react-icons/fa6";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const ManageItem = () => {
@@ -30,6 +31,42 @@ const ManageItem = () => {
                     swal("Your food is safe!");
                 }
             });
+    }
+
+
+    const onSubmit = async (data) => {
+        console.log(data)
+        // image upload to imgBB
+        const imageFile = { image: data.image[0] }
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        if (res.data.success) {
+            // send menu item to the server wiht img 
+            const menuItem = {
+                name: data.name,
+                category: data.category,
+                price: parseFloat(data.price),
+                recipe: data.recipe,
+                image: res.data.data.display_url
+            }
+            // send data to the server and then db 
+            const menuRes = await axiosSecure.post('/menu', menuItem);
+            console.log(menuRes.data)
+            if (menuRes.data.insertedId) {
+                //success
+                swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                    timer: 1500,
+                    button: "Aww yiss!",
+                });
+            }
+        }
+        console.log(res.data)
     }
 
     const handleUpdateItem = item => {
@@ -76,7 +113,10 @@ const ManageItem = () => {
                                 </td>
                                 <td>{item.price}</td>
                                 <td>
-                                    <button onClick={() => handleUpdateItem(item)} className="btn btn-ghost bg-[#D1A054] text-white"><FaPen></FaPen></button>
+                                    <Link to={`/dashboard/updateItem/${item._id}`}>
+                                        <button onClick={() => handleUpdateItem(item)} className="btn btn-ghost bg-[#D1A054] text-white"><FaPen></FaPen></button>
+
+                                    </Link>
                                 </td>
                                 <td>
                                     <button onClick={() => handleDeleteItem(item)} className="btn btn-ghost bg-[#B91C1C] text-white"><FaTrashCan></FaTrashCan></button>
