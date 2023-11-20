@@ -1,13 +1,35 @@
 import { FaPen, FaTrashCan } from "react-icons/fa6";
 import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const ManageItem = () => {
-    const [menu] = useMenu();
+    const [menu, loading, refetch] = useMenu();
+    const axiosSecure = useAxiosSecure();
 
-    const handleDeleteItem = item => {
-
+    const handleDeleteItem = (item) => {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this food!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then(async (willDelete) => {
+                if (willDelete) {
+                    const res = await axiosSecure.delete(`/menu/${item._id}`);
+                    console.log(res.data);
+                    if (res.data.deletedCount > 0) {
+                        refetch();
+                        swal("Poof! Your Food has been deleted!", {
+                            icon: "success",
+                        });
+                    }
+                } else {
+                    swal("Your food is safe!");
+                }
+            });
     }
 
     const handleUpdateItem = item => {
