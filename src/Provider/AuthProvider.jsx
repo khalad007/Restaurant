@@ -50,12 +50,14 @@ const AuthProvider = ({children}) => {
                 .then(res => {
                     if(res.data.token){
                         localStorage.setItem('access_token', res.data.token);
+                        // setLoading(false)
                     }
                 })
             }
             else{
-                // todo : remove token if token stored in the client side ,locak storage ,caching , in memory 
+                //  remove token if token stored in the client side ,locak storage ,caching , in memory 
                 localStorage.removeItem('access_token')
+                // setLoading(false)  this and above false one given for login related problem , i didn't get the error 
             }
 
             setLoading(false)

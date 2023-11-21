@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 
-import { FaBook, FaCalendarMinus, FaCartShopping, FaHouse, FaList, FaMoneyBillTransfer, FaRankingStar, FaUtensils } from "react-icons/fa6";
+import { FaBook, FaCalendarMinus, FaCartShopping, FaHouse, FaList, FaMoneyBillTransfer, FaRankingStar, FaUsers, FaUtensils } from "react-icons/fa6";
 import useAdmin from "../Hooks/useAdmin";
 import {  MdPayments } from "react-icons/md";
 const Dashboard = () => {
