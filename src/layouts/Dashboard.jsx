@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 
-import { FaBook, FaCalendarMinus, FaCartShopping, FaHouse, FaList, FaRankingStar, FaUser, FaUsers, FaUtensils } from "react-icons/fa6";
+import { FaBook, FaCalendarMinus, FaCartShopping, FaHouse, FaList, FaMoneyBillTransfer, FaRankingStar, FaUtensils } from "react-icons/fa6";
 import useAdmin from "../Hooks/useAdmin";
 import {  MdPayments } from "react-icons/md";
 const Dashboard = () => {
@@ -25,18 +25,18 @@ const Dashboard = () => {
                             <div className="divider"></div>
 
                             <li><NavLink to="/dashboard/userHome" ><FaHouse /> User Home</NavLink></li>
-                            <li><NavLink to="/dashboard/reservation"><FaCalendarMinus /> Reservation</NavLink></li>
                             <li><NavLink to="/dashboard/cart"><FaCartShopping></FaCartShopping> My cart</NavLink></li>
                             <li><NavLink to="/dashboard/review"><FaRankingStar /> Review</NavLink></li>
-                            <li><NavLink to="/dashboard/payment"><MdPayments /> Payment</NavLink></li>
+                            <li><NavLink to="/dashboard/paymentHistory"><FaCalendarMinus /> Payment History</NavLink></li>
+                            <li><NavLink to="/dashboard/payment"><FaMoneyBillTransfer /> Payment</NavLink></li>
                             <li><NavLink to="/dashboard/booking"><FaBook /> My Bookings</NavLink></li>
                         </>
                             :
                             <>
                                 <li><NavLink to="/dashboard/userHome" ><FaHouse /> User Home</NavLink></li>
-                                <li><NavLink to="/dashboard/reservation"><FaCalendarMinus /> Reservation</NavLink></li>
                                 <li><NavLink to="/dashboard/cart"><FaCartShopping></FaCartShopping> My cart</NavLink></li>
                                 <li><NavLink to="/dashboard/review"><FaRankingStar /> Review</NavLink></li>
+                                <li><NavLink to="/dashboard/paymentHistory"><FaMoneyBillTransfer /> Payment History</NavLink></li>
                                 <li><NavLink to="/dashboard/payment"><MdPayments /> Payment</NavLink></li>
                                 <li><NavLink to="/dashboard/booking"><FaBook /> My Bookings</NavLink></li>
                             </>

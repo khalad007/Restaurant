@@ -9,44 +9,46 @@ import useAuth from '../../../Hooks/useAuth';
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const {user} = useAuth();
+    const { user } = useAuth();
     const [error, setError] = useState('');
-    const [ clientSecret, setClientSecret] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTranssactionId] = useState('');
     const axiosSecure = useAxiosSecure();
     const [cart] = useCart();
-    const totalPrice = cart.reduce( (total, item) => total + item.price, 0)
+    const totalPrice = cart.reduce((total, item) => total + item.price, 0)
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', {price: totalPrice})
-        .then(res => {
-            console.log(res.data.clientSecret)
-            setClientSecret(res.data.clientSecret);
-        })
+        if (totalPrice > 0) {
+            axiosSecure.post('/create-payment-intent', { price: totalPrice })
+                .then(res => {
+                    console.log(res.data.clientSecret)
+                    setClientSecret(res.data.clientSecret);
+                })
+        }
     }, [axiosSecure, totalPrice])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!stripe || !elements){
+        if (!stripe || !elements) {
             return;
         }
 
         const card = elements.getElement(CardElement)
 
-        if(card === null) {
+        if (card === null) {
             return;
         }
 
-        const {error,paymentMethod} = await stripe.createPaymentMethod({
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
         })
 
-        if(error){
+        if (error) {
             console.log('payment err', error)
             setError(error.message)
         }
-        else{
+        else {
             console.log('payment method', paymentMethod)
             setError('')
         }
@@ -60,12 +62,12 @@ const CheckoutForm = () => {
                 }
             }
         })
-        if(confirmError){
+        if (confirmError) {
             console.log('confirm error', confirmError)
         }
-        else{
+        else {
             console.log('payment intent', paymentIntent)
-            if(paymentIntent.status === 'succeeded'){
+            if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id', paymentIntent.id);
                 setTranssactionId(paymentIntent.id);
 
@@ -82,10 +84,13 @@ const CheckoutForm = () => {
                 }
 
                 const res = await axiosSecure.post('/payments', payment);
-                console.log('payment save', res.data)
+                console.log('payment save', res.data);
+                if(res.data?.paymentResult?.insertedId){
+                    swal("Good job!", "Payment Successe...!", "success");
+                }
             }
         }
-        
+
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -108,10 +113,10 @@ const CheckoutForm = () => {
             <button className='btn btn-accent mt-7 text-white' type="submit" disabled={!stripe || !clientSecret}>
                 Pay
             </button>
-                <p className='text-error'>{error}</p>
-                {
-                    transactionId && <p className='text-green-500 font-bold'> Your transaction id : {transactionId}</p>
-                }
+            <p className='text-error'>{error}</p>
+            {
+                transactionId && <p className='text-green-500 font-bold'> Your transaction id : {transactionId}</p>
+            }
         </form>
     );
 };
